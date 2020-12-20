@@ -22,7 +22,7 @@ Run the interpreter on a file:
 ```
 ./monty file
 ```
-* where file is the path to the file containing Monty byte code
+ where **file** is the path to the file containing Monty byte code
 
 ## Monty Opcodes handled and Explanations
 
