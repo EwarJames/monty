@@ -1,6 +1,6 @@
 # Monty Interpreter
 
-Monty Bytecode Interpreter was built in the C language as part of the requirement of Software Engineering course at Holberton School.
+Monty Bytecode Interpreter was built in the C language as part of the requirement of Software Engineering course at Holberton School.Monty is a scripting language that is first compiled to Monty ByteCode (just like in Python). It relies on a unique stack, with specific instructions to manipulate it. This project is a recreation of compiling simple Monty ByteCode files.
 
 The interpreter can be run as either a stack (LIFO) or queue (FIFO).
 
