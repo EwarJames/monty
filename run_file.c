@@ -1,5 +1,7 @@
 #include "monty.h"
 
+gen_t gen;
+
 /**
  * run_file - run the whole monty file
  * @filename: str name of monty opcode file
