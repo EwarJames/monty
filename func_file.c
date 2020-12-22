@@ -1,12 +1,12 @@
 #include "monty.h"
 
 /**
-* func_call - Decides function to call based on the tokens.
-* @stack: double pointer to head of stack data structure
-* @op: operator, aka token[0] from getline
-* @line_number: line in byte-code file being processed, zero indexed
-* Return: int for mysterious purposes
-**/
+ * func_call - Decides function to call based on the tokens.
+ * @stack: double pointer to head of stack data structure
+ * @op: operator, aka token[0] from getline
+ * @line_number: line in byte-code file being processed, zero indexed
+ * Return: int for mysterious purposes
+ **/
 void func_call(stack_t **stack, char *op, unsigned int line_number)
 {
 	int i = 0;

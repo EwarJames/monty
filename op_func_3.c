@@ -23,7 +23,6 @@ void func_mod(stack_t **stack, unsigned int line_number)
 }
 /**
  * func_rotl - Implement the rotl opcode.
- * 
  * @stack: element at the top of the stack (head)
  * @line_number: constant int value in the structure
  * Return: no return.
@@ -52,7 +51,6 @@ void func_rotl(stack_t **stack, unsigned int line_number)
 }
 /**
  * func_rotr - Implement the rotr opcode.
- * 
  * @stack: element at the top of the stack (head)
  * @line_number: constant int value in the structure
  * Return: no return.
@@ -75,7 +73,6 @@ void func_rotr(stack_t **stack, unsigned int line_number)
 }
 /**
  * func_nop - Implement the nop opcode
- * 
  * @stack: element at the top of the stack (head)
  * @line_number: constant int value in the structure
  * Return: no return.
@@ -87,7 +84,6 @@ void func_nop(stack_t **stack, unsigned int line_number)
 }
 /**
  * func_pchar - Prints the char at the stack of the stack.
- * 
  * @stack: element at the top of the stack (head)
  * @line_number: constant int value in the structure
  * Return: no return.

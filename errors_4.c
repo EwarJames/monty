@@ -1,8 +1,7 @@
 #include "monty.h"
 /**
- * pchar_error - Prints error message if 
+ * pchar_error - Prints error message if
  *               the value is not in the ascii table
- * 
  * @line: The function´s parameter
  */
 void pchar_error(unsigned int line)

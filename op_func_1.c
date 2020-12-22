@@ -19,16 +19,16 @@ void func_push(stack_t **stack, unsigned int line_number)
 
 	newNode->n = number;
 	newNode->prev = NULL;
-	if (*stack == NULL)  
+	if (*stack == NULL)
 	{
 		newNode->next = NULL;
 		*stack = newNode;
 	}
-	else 
-	  {
-	newNode->next = *stack;
-	(*stack)->prev = newNode;
-	*stack = newNode;
+	else
+	{
+		newNode->next = *stack;
+		(*stack)->prev = newNode;
+		*stack = newNode;
 	}
 }
 /**
@@ -74,7 +74,6 @@ void free_stack(stack_t *stack)
 
 /**
  * func_pint -print the valueat stack of stack.
- * 
  * @stack: element at the top of the stack (head)
  * @line_number: constant int value in the structure
  * Return: void
@@ -91,7 +90,6 @@ void func_pint(stack_t **stack, unsigned int line_number)
 }
 /**
  * func_pop - pops the value at stack of stack
- * 
  * @stack: element at the top of the stack (head)
  * @line_number: constant int value in the structure
  * Return: void

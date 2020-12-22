@@ -10,7 +10,7 @@ int number;
 
 void open_and_read(char **argv)
 {
-        void (*p_func)(stack_t **, unsigned int);
+	void (*p_func)(stack_t **, unsigned int);
 	FILE *fp;
 	char *buf = NULL, *token = NULL, command[1024];
 	size_t len = 0;
@@ -35,8 +35,8 @@ void open_and_read(char **argv)
 			if (token == NULL || is_number(token) == -1)
 				not_int_err(line_counter);
 			number = atoi(token);
-        		p_func = get_op_code(command, line_counter);
-     			p_func(&top, line_counter);
+			p_func = get_op_code(command, line_counter);
+			p_func(&top, line_counter);
 		}
 		else
 		{
@@ -79,8 +79,8 @@ int is_comment(char *token, int line_counter)
 {
 	if (token == NULL || token[0] == '#')
 	{
-	line_counter++;
-	return (1);
+		line_counter++;
+		return (1);
 	}
 	return (-1);
 }

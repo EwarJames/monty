@@ -59,7 +59,7 @@ void func_sub(stack_t **stack, unsigned int line_number)
 }
 /**
  * func_div - main entry
- * Description: Divides the seccond stack element of the stack by the top element
+ * Description: Divides the seccond stack
  * @stack: element at the top of the stack (head)
  * @line_number: constant int value in the structure
  * Return: no return.
@@ -81,7 +81,6 @@ void func_div(stack_t **stack, unsigned int line_number)
 }
 /**
  * func_mul - multiplies the seccond stack element of stack and the top element
- * 
  * @stack: element at the top of the stack (head)
  * @line_number: constant int value in the structure
  * Return: void
