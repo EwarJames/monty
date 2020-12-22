@@ -1,108 +1,101 @@
 #include "monty.h"
 
 /**
- * func_push -pushes node to list.
+ * push - pushes a node to the top of stack
+ * @stack: pointer to the head node pointer of stack
+ * @nline: the line number
  *
- * @stack: element at the top of the stack (head)
- * @line_number: constant int value in the structure
- * Return: void
- **/
-void func_push(stack_t **stack, unsigned int line_number)
+ * Return: Nothing.
+ */
+void push(stack_t **stack, unsigned int nline)
 {
-	stack_t *newNode;
-
-	(void) line_number;
-	newNode = malloc(sizeof(stack_t));
-
-	if (newNode == NULL)
-		malloc_error();
-
-	newNode->n = number;
-	newNode->prev = NULL;
-	if (*stack == NULL)
-	{
-		newNode->next = NULL;
-		*stack = newNode;
-	}
-	else
-	{
-		newNode->next = *stack;
-		(*stack)->prev = newNode;
-		*stack = newNode;
-	}
-}
-/**
- * func_pall - print the elements of a stack.
- *
- * @stack: element at the top of the stack (head)
- * @line_number: constant int value in the structure
- * Return: void
- **/
-void func_pall(stack_t **stack, unsigned int line_number)
-{
-	stack_t *tmp = *stack;
-	(void)line_number;
-
-	while (tmp != NULL)
-	{
-		printf("%d\n", tmp->n);
-		tmp = tmp->next;
-	}
-}
-/**
- * free_stack -free list.
- *
- * @stack: top of the stack. (head)
- * Return: void
- **/
-
-void free_stack(stack_t *stack)
-{
-	stack_t *temp;
+	stack_t *new;
 
 	if (stack == NULL)
+	{
+		fprintf(stderr, "L%d: stack not found\n", nline);
+		exit(EXIT_FAILURE);
+	}
+
+	new = malloc(sizeof(stack_t));
+	if (new == NULL)
+	{
+		fprintf(stderr, "Error: malloc failed\n");
+		free_stack(stack);
+		exit(EXIT_FAILURE);
+	}
+
+	new->next = *stack;
+	new->prev = NULL;
+	new->n = arg.arg;
+	if (*stack)
+		(*stack)->prev = new;
+	*stack = new;
+}
+
+/**
+ * pall - prints the data of all nodes in stack
+ * @stack: pointer to the head node pointer of stack
+ * @nline: the line number
+ *
+ * Return: Nothing.
+ */
+void pall(stack_t **stack, unsigned int nline)
+{
+	stack_t *temp;
+	(void)nline;
+
+	temp = *stack;
+	while (temp)
+	{
+		printf("%d\n", temp->n);
+		temp = temp->next;
+	}
+}
+
+/**
+ * free_stack - frees all nodes in a stack
+ * @stack: pointer to the head node pointer of stack
+ *
+ * Return: Nothing.
+ */
+void free_stack(stack_t **stack)
+{
+	stack_t *temp = NULL;
+
+	if (stack == NULL || *stack == NULL)
 		return;
 
-	while (stack != NULL)
+	while (*stack != NULL)
 	{
-		temp = stack;
-		stack = stack->next;
-		free(temp);
+		temp = (*stack)->next;
+		free(*stack);
+		*stack = temp;
 	}
-	free(stack);
 }
 
 /**
- * func_pint -print the valueat stack of stack.
- * @stack: element at the top of the stack (head)
- * @line_number: constant int value in the structure
- * Return: void
- **/
-
-void func_pint(stack_t **stack, unsigned int line_number)
+ * nop - does literally nothing
+ * @stack: pointer to the head node pointer of stack
+ * @nline: the line number
+ * Return: Nothing.
+ */
+void nop(stack_t **stack, unsigned int nline)
 {
-	stack_t *tmp = *stack;
+	(void)stack;
+	(void)nline;
+}
 
-	if (tmp != NULL)
-		printf("%d\n", tmp->n);
+/**
+ * _isalpha - checks if int is in alphabet
+ * @c: int
+ * Return: 1 if yes, 0 if no
+ */
+int _isalpha(int c)
+{
+	if (((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z')))
+		return (1);
 	else
-		pint_error(line_number);
+		return (0);
 }
-/**
- * func_pop - pops the value at stack of stack
- * @stack: element at the top of the stack (head)
- * @line_number: constant int value in the structure
- * Return: void
- **/
-void func_pop(stack_t **stack, unsigned int line_number)
-{
-	stack_t *tmp;
 
-	tmp = *stack;
-	if (*stack == NULL)
-		pop_error(line_number);
-
-	tmp = tmp->next;
-	free(*stack);
-	*stack = tmp;
-}

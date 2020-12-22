@@ -1,104 +1,130 @@
 #include "monty.h"
 
 /**
- *func_mod - print the mode.
- *
- * @stack: element at the top of the stack (head)
- * @line_number: constant int value in the structure
- * Return: no return.
- **/
-void func_mod(stack_t **stack, unsigned int line_number)
+ * rotl - rotates the stack to the top
+ * @stack: pointer to the head node pointer of stack
+ * @nline: the line number
+ * Return: Nothing.
+ */
+void rotl(stack_t **stack, unsigned int nline)
 {
-	stack_t *tmp;
+	stack_t *temp;
+	int hold_this, hold_this_again;
+	(void)nline;
 
-	if (*stack == NULL || (*stack)->next ==  NULL)
-		mod_error(line_number);
+	if (stack == NULL || *stack == NULL)
+	{
+		nop(stack, nline);
+	}
 
-	if ((*stack)->n == 0)
-		div_error2(line_number);
+	hold_this = (*stack)->n;
+	temp = *stack;
 
-	tmp = (*stack)->next;
-	tmp->n = (tmp->n) % (*stack)->n;
-	func_pop(stack, line_number);
+	while (temp)
+	{
+		if (temp->next == NULL)
+			break;
+		temp = temp->next;
+	}
+
+	hold_this_again = temp->n;
+	(*stack)->n = hold_this_again;
+	temp->n = hold_this;
 }
+
 /**
- * func_rotl - Implement the rotl opcode.
- * @stack: element at the top of the stack (head)
- * @line_number: constant int value in the structure
- * Return: no return.
- **/
-void func_rotl(stack_t **stack, unsigned int line_number)
+ * rotlop - rotates stack to left
+ * @stack: pointer to the head node pointer of stack
+ * @nline: the line number
+ * Return: Nothing.
+ */
+void rotlop(stack_t **stack, unsigned int nline)
 {
-	stack_t *new_stack, *tmp, *new_last;
+	stack_t *last, *tmp;
 
-	(void)line_number;
-
-	if (*stack == NULL || (*stack != NULL && (*stack)->next == NULL))
+	(void)nline;
+	if (!stack || !(*stack) || !((*stack)->next))
 		return;
 
-	new_last = *stack;
 	tmp = *stack;
+	last = tmp;
 
-	while (tmp->next)
-		tmp = tmp->next;
+	while (last->next)
+	{
+		last = last->next;
+	}
 
-	new_stack = (*stack)->next;
-	new_last->next = NULL;
-	new_last->prev = tmp;
-	tmp->next = new_last;
-	new_stack->prev = NULL;
-	*stack = new_stack;
+	last->next = tmp;
+	tmp->prev = last;
+	tmp->next->prev = NULL;
+	*stack = tmp->next;
+	tmp->next = NULL;
 }
-/**
- * func_rotr - Implement the rotr opcode.
- * @stack: element at the top of the stack (head)
- * @line_number: constant int value in the structure
- * Return: no return.
- **/
-void func_rotr(stack_t **stack, unsigned int line_number)
-{
-	stack_t *tmp;
 
-	(void)line_number;
-	if (*stack == NULL || (*stack != NULL && (*stack)->next == NULL))
+/**
+ * rotrop - rotates stack to right
+ * @stack: pointer to the head node pointer of stack
+ * @nline: the line number
+ * Return: Nothing.
+ */
+void rotrop(stack_t **stack, unsigned int nline)
+{
+	stack_t *last, *tmp;
+
+	(void)nline;
+	if (!stack || !(*stack) || !((*stack)->next))
 		return;
+
 	tmp = *stack;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->prev->next = NULL;
-	tmp->prev = NULL;
-	tmp->next = *stack;
-	(*stack)->prev = tmp;
-	*stack = tmp;
+	last = tmp;
+
+	while (last->next)
+	{
+		last = last->next;
+	}
+
+	last->prev->next = NULL;
+	last->prev = NULL;
+	tmp->prev = last;
+	last->next = tmp;
+	*stack = last;
 }
+
 /**
- * func_nop - Implement the nop opcode
- * @stack: element at the top of the stack (head)
- * @line_number: constant int value in the structure
- * Return: no return.
- **/
-void func_nop(stack_t **stack, unsigned int line_number)
+ * qpush - pushes for queue instead of stack
+ * @stack: pointer to the head node pointer of stack
+ * @nline: the line number
+ * Return: Nothing.
+ */
+void qpush(stack_t **stack, unsigned int nline)
 {
-	(void) stack;
-	(void) line_number;
-}
-/**
- * func_pchar - Prints the char at the stack of the stack.
- * @stack: element at the top of the stack (head)
- * @line_number: constant int value in the structure
- * Return: no return.
- **/
-void func_pchar(stack_t **stack, unsigned int line_number)
-{
-	int ascii_num;
+	stack_t *last, *new;
 
-	if (*stack == NULL)
-		pchar_error2(line_number);
+	if (stack == NULL)
+	{
+		fprintf(stderr, "L%d: stack not found\n", nline);
+		exit(EXIT_FAILURE);
+	}
 
-	ascii_num = (*stack)->n;
+	new = malloc(sizeof(stack_t));
+	if (new == NULL)
+	{
+		fprintf(stderr, "Error: malloc failed\n");
+		free_stack(stack);
+		exit(EXIT_FAILURE);
+	}
 
-	if (ascii_num < 0 || ascii_num > 127)
-		pchar_error(line_number);
-	putchar(ascii_num);
-	putchar('\n');
+	last = NULL;
+	if (*stack)
+	{
+		last = *stack;
+		while (last->next)
+			last = last->next;
+		last->next = new;
+	}
+	else
+		*stack = new;
+	new->prev = last;
+	new->next = NULL;
+	new->n = arg.arg;
 }

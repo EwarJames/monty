@@ -1,98 +1,139 @@
 #include "monty.h"
+/**
+ * pint - prints the value at the top of stack
+ * @stack: pointer to the head node pointer of stack
+ * @nline: the line number
+ * Return: Nothing.
+ */
+void pint(stack_t **stack, unsigned int nline)
+{
+	stack_t *temp;
+
+	if (stack == NULL || *stack == NULL)
+	{
+		fprintf(stderr, "L%d: can't pint, stack empty\n", nline);
+		exit(EXIT_FAILURE);
+	}
+
+	temp = *stack;
+	while (temp)
+	{
+		if (temp->prev == NULL)
+			break;
+		temp = temp->prev;
+	}
+
+	printf("%d\n", temp->n);
+}
 
 /**
- *func_swap - swaps the stack 2 elements of stack.
- *
- * @stack: element at the top of the stack (head)
- * @line_number: constant int value in the structure
- * Return: no return.
- **/
-
-void func_swap(stack_t **stack, unsigned int line_number)
+ * pop - removes the top element of stack
+ * @stack: pointer to the head node pointer of stack
+ * @nline: the line number
+ * Return: Nothing.
+ */
+void pop(stack_t **stack, unsigned int nline)
 {
-	int num;
+	if (stack == NULL || *stack == NULL)
+	{
+		fprintf(stderr, "L%d: can't pop an empty stack\n", nline);
+		exit(EXIT_FAILURE);
+	}
+	/* if stack is more than 1 node, else free entire thing */
+	if ((*stack)->next != NULL)
+	{
+		*stack = (*stack)->next;
+		free((*stack)->prev);
+		(*stack)->prev = NULL;
+	}
+	else
+	{
+		free(*stack);
+		*stack = NULL;
+	}
+}
 
-	if (*stack == NULL || (*stack)->next == NULL)
-		swap_error(line_number);
+/**
+ * swap - swaps the top two elements of the stack
+ * @stack: pointer to the head node pointer of stack
+ * @nline: the line number
+ * Return: Nothing.
+ */
+void swap(stack_t **stack, unsigned int nline)
+{
+	int temp;
 
-	num = (*stack)->n;
+	if (stack == NULL || *stack == NULL || !((*stack)->next))
+	{
+		fprintf(stderr, "L%d: can't swap, stack too short\n", nline);
+		exit(EXIT_FAILURE);
+	}
+
+	temp = (*stack)->n;
 	(*stack)->n = (*stack)->next->n;
-	(*stack)->next->n = num;
+	(*stack)->next->n = temp;
 }
 
 /**
- *func_add - adds the stack two elements of the stack.
- *
- * @stack: element at the top of the stack (head)
- * @line_number: constant int value in the structure
- * Return: no return
- **/
-
-void func_add(stack_t **stack, unsigned int line_number)
-{
-	stack_t *tmp;
-
-	if (*stack == NULL || (*stack)->next == NULL)
-		add_error(line_number);
-
-	tmp = (*stack)->next;
-	tmp->n += (*stack)->n;
-	func_pop(stack, line_number);
-}
-/**
- *func_sub - Sub the stack element of stck.
- *
- * @stack: element at the top of the stack (head)
- * @line_number: constant int value in the structure
- * Return: no return.
- **/
-void func_sub(stack_t **stack, unsigned int line_number)
-{
-	stack_t *tmp;
-
-	if (*stack == NULL || (*stack)->next == NULL)
-		sub_error(line_number);
-
-	tmp = (*stack)->next;
-	tmp->n -= (*stack)->n;
-	func_pop(stack, line_number);
-}
-/**
- * func_div - main entry
- * Description: Divides the seccond stack
- * @stack: element at the top of the stack (head)
- * @line_number: constant int value in the structure
- * Return: no return.
+ * pchar - prints char at top of stack
+ * @stack: pointer to the head node pointer of stack
+ * @nline: the line number
+ * Return: Nothing.
  */
-
-void func_div(stack_t **stack, unsigned int line_number)
+void pchar(stack_t **stack, unsigned int nline)
 {
-	stack_t *tmp;
+	char c;
+	stack_t *temp;
 
-	if (*stack == NULL || (*stack)->next == NULL)
-		div_error(line_number);
+	if (stack == NULL || *stack == NULL)
+	{
+		fprintf(stderr, "L%d: can't pchar, stack empty\n", nline);
+		exit(EXIT_FAILURE);
+	}
 
-	if ((*stack)->n == 0)
-		div_error2(line_number);
+	temp = *stack;
+	while (temp)
+	{
+		if (temp->prev == NULL)
+			break;
+		temp = temp->prev;
+	}
 
-	tmp = (*stack)->next;
-	tmp->n = (tmp->n) / (*stack)->n;
-	func_pop(stack, line_number);
+	c = temp->n;
+	if (_isalpha(temp->n) == 0)
+	{
+		fprintf(stderr, "L%d: can't pchar, value out of range\n", nline);
+		exit(EXIT_FAILURE);
+	}
+	printf("%c\n", c);
 }
 /**
- * func_mul - multiplies the seccond stack element of stack and the top element
- * @stack: element at the top of the stack (head)
- * @line_number: constant int value in the structure
- * Return: void
+ * pstr - prints a str from ascii starting from the top
+ * @stack: pointer to the head node pointer of stack
+ * @nline: the line number
+ * Return: Nothing.
  */
-void func_mul(stack_t **stack, unsigned int line_number)
+void pstr(stack_t **stack, unsigned int nline)
 {
-	stack_t *tmp;
+	int idx = 0;
+	char res[] = "";
+	char c;
+	stack_t *temp;
 
-	if (*stack == NULL || (*stack)->next == NULL)
-		mul_error(line_number);
-
-	tmp = (*stack)->next;
-	tmp->n *= (*stack)->n;
-	func_pop(stack, line_number);
+	temp = *stack;
+	(void)nline;
+	/* starts at the top */
+	while (temp)
+	{
+		if (temp->n == 0)
+			break;
+		if (_isalpha(temp->n) == 0)
+			break;
+		c = temp->n;
+		printf("%c", c);
+		res[idx] += c;
+		temp = temp->next;
+		idx++;
+	}
+	printf("\n");
 }

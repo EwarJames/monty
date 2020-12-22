@@ -1,39 +1,65 @@
 #include "monty.h"
 
 /**
- * get_op_code - contain the function that will perform the operation
- * @token: operation code
- * @line: line readed
- * Return: void
+ * get_op_func - function searches for a match between opcode and text
+ * and returns the corresponding function
+ * @line: struct containing line contents and line number
+ * @meta: struct containing all allocated memory
+ *
+ * Return: pointer to the matching function
  */
-void (*get_op_code(char *token, unsigned int line)) (stack_t **, unsigned int)
+void (*get_op_func(line_t line, meta_t *meta))(stack_t **, unsigned int)
 {
-	int i;
-	instruction_t operation[] = {
-		{"push", func_push},
-		{"pall", func_pall},
-		{"pint", func_pint},
-		{"pop", func_pop},
-		{"swap", func_swap},
-		{"nop", func_nop},
-		{"add", func_add},
-		{"sub", func_sub},
-		{"div", func_div},
-		{"mul", func_mul},
-		{"mod", func_mod},
-		{"rotl", func_rotl},
-		{"rotr", func_rotr},
-		{"pchar", func_pchar},
-		{"pstr", func_pstr},
+	unsigned int i = 0;
+	instruction_t ops[] = {
+		{"push", push},
+		{"pall", pall},
+		{"pint", pint},
+		{"pop", pop},
+		{"swap", swap},
+		{"add", addop},
+		{"sub", subop},
+		{"div", divop},
+		{"mul", mulop},
+		{"mod", modop},
+		{"nop", nop},
+		{"pchar", pchar},
+		{"pstr", pstr},
+		{"rotl", rotlop},
+		{"rotr", rotrop},
+		{"stack", addst},
+		{"queue", addqu},
 		{NULL, NULL}
 	};
-	for (i = 0; operation[i].opcode != NULL; i++)
+
+	if (comment_check(line))
+		return (nop);
+
+	while (ops[i].opcode)
 	{
-		if (strcmp(token, operation[i].opcode) == 0)
+		if (strcmp(ops[i].opcode, line.content[0]) == 0)
 		{
-			return (operation[i].f);
+			push_check(line, meta, ops[i].opcode);
+			if (arg.flag == 1 &&
+			strcmp(ops[i].opcode, "push") == 0)
+			{
+				if (line.content)
+					free(line.content);
+				return (qpush);
+			}
+			free(line.content);
+			return (ops[i].f);
 		}
+
+		i++;
 	}
-	invalidInstruction_error(token, line);
-	return (NULL);
+
+	fprintf(stderr, "L%d: unknown instruction %s\n", line.number,
+	line.content[0]);
+	free(line.content);
+	free(meta->buf);
+	free_stack(&(meta->stack));
+	fclose(meta->file);
+	free(meta);
+	exit(EXIT_FAILURE);
 }
