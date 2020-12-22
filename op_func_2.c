@@ -1,100 +1,99 @@
 #include "monty.h"
 
 /**
- * func_add - adds top 2 nodes of the stack
- * @stack: double pointer to top of stack
- * @line_number: value of node
- * Return: nothing
+ *func_swap - swaps the stack 2 elements of stack.
+ *
+ * @stack: element at the top of the stack (head)
+ * @line_number: constant int value in the structure
+ * Return: no return.
  **/
-void func_add(stack_t **stack, unsigned int line_number)
-{
-	int tmp;
 
-	if (*stack == NULL || (*stack)->next == NULL)
-	{
-		printf("L%u: can't add, stack too short\n", line_number);
-		exit(EXIT_FAILURE);
-	}
-
-	tmp = (*stack)->n;
-	func_pop(stack, line_number);
-	(*stack)->n += tmp;
-}
-
-/**
- * func_nop - doesn't do anything
- * @stack: double pointer to top of stack
- * @line_number: value of node
- * Return: nothing
- **/
-void func_nop(stack_t  **stack, unsigned int line_number)
-{
-	(void) line_number;
-	(void) stack;
-}
-
-/**
- * func_mul - multiplies second top node from top node
- * @stack: double pointer to top of stack
- * @line_number: value of node
- * Return: nothing
- **/
-void func_mul(stack_t **stack, unsigned int line_number)
-{
-	int tmp;
-
-	if (*stack == NULL || (*stack)->next == NULL)
-	{
-		printf("L%u: can't mul, stack too short\n", line_number);
-		exit(EXIT_FAILURE);
-	}
-
-	tmp = (*stack)->n;
-	func_pop(stack, line_number);
-	(*stack)->n *= tmp;
-}
-/**
- *func_pop - removes the top element from the stack.
- * @stack: pointer to the first node.
- * @line_number: value of new node.
- */
-
-void func_pop(stack_t **stack, unsigned int line_number)
-{
-	stack_t *node;
-
-	if (stack == NULL || *stack == NULL)
-	{
-		printf("L%u: can't pop an empty stack\n", line_number);
-		exit(EXIT_FAILURE);
-	}
-	node  = *stack;
-	(*stack) = (*stack)->next;
-	free(node);
-}
-
-/**
- * func_swap - swaps 2 elements of the stack
- * @stack: double pointer to the first node
- * @line_number: value of new node
- */
 void func_swap(stack_t **stack, unsigned int line_number)
 {
-	stack_t *tmp;
-	(void) line_number;
+	int num;
 
-	if (!(*stack) || !((*stack)->next))
-	{
-		printf("L%u: can't swap, stack too short\n", line_number);
-		exit(EXIT_FAILURE);
-	}
+	if (*stack == NULL || (*stack)->next == NULL)
+		swap_error(line_number);
+
+	num = (*stack)->n;
+	(*stack)->n = (*stack)->next->n;
+	(*stack)->next->n = num;
+}
+
+/**
+ *func_add - adds the stack two elements of the stack.
+ *
+ * @stack: element at the top of the stack (head)
+ * @line_number: constant int value in the structure
+ * Return: no return
+ **/
+
+void func_add(stack_t **stack, unsigned int line_number)
+{
+	stack_t *tmp;
+
+	if (*stack == NULL || (*stack)->next == NULL)
+		add_error(line_number);
+
 	tmp = (*stack)->next;
-	(*stack)->prev = (*stack)->next;
-	(*stack)->next = tmp->next;
-	tmp->prev = NULL;
-	(*stack)->prev = tmp;
-	if (tmp->next)
-		tmp->next->prev = *stack;
-	tmp->next = *stack;
-	(*stack) = (*stack)->prev;
+	tmp->n += (*stack)->n;
+	func_pop(stack, line_number);
+}
+/**
+ *func_sub - Sub the stack element of stck.
+ *
+ * @stack: element at the top of the stack (head)
+ * @line_number: constant int value in the structure
+ * Return: no return.
+ **/
+void func_sub(stack_t **stack, unsigned int line_number)
+{
+	stack_t *tmp;
+
+	if (*stack == NULL || (*stack)->next == NULL)
+		sub_error(line_number);
+
+	tmp = (*stack)->next;
+	tmp->n -= (*stack)->n;
+	func_pop(stack, line_number);
+}
+/**
+ * func_div - main entry
+ * Description: Divides the seccond stack element of the stack by the top element
+ * @stack: element at the top of the stack (head)
+ * @line_number: constant int value in the structure
+ * Return: no return.
+ */
+
+void func_div(stack_t **stack, unsigned int line_number)
+{
+	stack_t *tmp;
+
+	if (*stack == NULL || (*stack)->next == NULL)
+		div_error(line_number);
+
+	if ((*stack)->n == 0)
+		div_error2(line_number);
+
+	tmp = (*stack)->next;
+	tmp->n = (tmp->n) / (*stack)->n;
+	func_pop(stack, line_number);
+}
+/**
+ * func_mul - multiplies the seccond stack element of stack and the top element
+ * 
+ * @stack: element at the top of the stack (head)
+ * @line_number: constant int value in the structure
+ * Return: void
+ */
+void func_mul(stack_t **stack, unsigned int line_number)
+{
+	stack_t *tmp;
+
+	if (*stack == NULL || (*stack)->next == NULL)
+		mul_error(line_number);
+
+	tmp = (*stack)->next;
+	tmp->n *= (*stack)->n;
+	func_pop(stack, line_number);
 }
