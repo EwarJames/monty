@@ -4,17 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <errno.h>
-#include <limits.h>
 #include <ctype.h>
 
-#define TRUE 1
-#define FALSE 0
-#define DELIMS "\n \t\r"
+extern int n, number;
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -33,7 +25,7 @@ typedef struct stack_s
 } stack_t;
 
 /**
- * struct instruction_s - opcoode and its function
+ * struct instruction_s - opcode and its function
  * @opcode: the opcode
  * @f: function to handle the opcode
  *
@@ -46,40 +38,41 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-/**
- * struct gen_s - globally defined variables, all rolled into one
- * @top: pointer to top of stack
- **/
-
-typedef struct gen_s
-{
-	stack_t **top;
-	instruction_t **ops;
-} gen_t;
-
-extern gen_t gen;
-
-
-void stack_init(stack_t **head);
-void free_all(void);
-int run_file(char *filename, stack_t **stack);
-void func_call(stack_t **stack, char *op, unsigned int line_number);
+void usage_error(void);
+void open_error(char **);
+void invalidInstruction_error(char *invInstruction, unsigned int line);
+void not_int_err(unsigned int line);
+void malloc_error(void);
+void pint_error(unsigned int line);
+void pop_error(unsigned int line);
+void swap_error(unsigned int line);
+void add_error(unsigned int line);
+void sub_error(unsigned int line);
+void div_error(unsigned int line);
+void div_error2(unsigned int line);
+void mul_error(unsigned int line);
+void mod_error(unsigned int line);
+void pchar_error(unsigned int line);
+void pchar_error2(unsigned int line);
+void open_and_read(char **argv);
+int is_number(char *token);
+int is_comment(char *token, int line_counter);
+void (*get_op_code(char *token, unsigned int line)) (stack_t **, unsigned int);
 void func_push(stack_t **stack, unsigned int line_number);
-void func_pop(stack_t **stack, unsigned int line_number);
-void func_pint(stack_t **stack, unsigned int line_number);
 void func_pall(stack_t **stack, unsigned int line_number);
-void func_swap(stack_t **stack, unsigned int line_number);
-void func_add(stack_t **stack, unsigned int line_number);
-void func_nop(stack_t **stack, unsigned int line_number);
+void free_stack(stack_t *stack);
+void func_pint(stack_t **stack, unsigned int line_number);
+void func_pop(stack_t **stack, unsigned int line_number);
+void func_swap(stack_t **stack, unsigned int line);
+void func_add(stack_t **stack, unsigned int line);
 void func_sub(stack_t **stack, unsigned int line_number);
 void func_div(stack_t **stack, unsigned int line_number);
-void func_mul(stack_t **stack, unsigned int line_number);
+void func_mul(stack_t **stack, unsigned int line);
 void func_mod(stack_t **stack, unsigned int line_number);
-void func_pchar(stack_t **stack, unsigned int line_number);
-void func_pstr(stack_t **stack, unsigned int line_number);
 void func_rotl(stack_t **stack, unsigned int line_number);
 void func_rotr(stack_t **stack, unsigned int line_number);
-int is_leading_digit(char ascii_char);
-int errors_check(char *num_string, unsigned int line_number);
+void func_nop(stack_t **stack, unsigned int line);
+void func_pchar(stack_t **stack, unsigned int line_number);
+void func_pstr(stack_t **stack, unsigned int line_number);
 
 #endif
