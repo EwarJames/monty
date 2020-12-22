@@ -8,7 +8,7 @@
  *
  * Return: pointer to the matching function
  */
-void (*get_op_func(line_t line, meta_t *meta))(stack_t **, unsigned int)
+void (*get_op_func(line_t line, node_t *meta))(stack_t **, unsigned int)
 {
 	unsigned int i = 0;
 	instruction_t ops[] = {
@@ -40,7 +40,7 @@ void (*get_op_func(line_t line, meta_t *meta))(stack_t **, unsigned int)
 		if (strcmp(ops[i].opcode, line.content[0]) == 0)
 		{
 			push_check(line, meta, ops[i].opcode);
-			if (arg.flag == 1 &&
+			if (glob.flag == 1 &&
 			strcmp(ops[i].opcode, "push") == 0)
 			{
 				if (line.content)

@@ -38,10 +38,10 @@ void parseline(line_t *line, char *buffer)
 void parsefile(FILE *file)
 {
 	size_t size = 0;
-	meta_t *meta = NULL;
+	node_t *meta = NULL;
 	line_t line;
 
-	meta = malloc(sizeof(meta_t));
+	meta = malloc(sizeof(node_t));
 	if (!meta)
 	{
 		fprintf(stderr, "Error: malloc failed");

@@ -27,7 +27,7 @@ void push(stack_t **stack, unsigned int nline)
 
 	new->next = *stack;
 	new->prev = NULL;
-	new->n = arg.arg;
+	new->n = glob.glob;
 	if (*stack)
 		(*stack)->prev = new;
 	*stack = new;
@@ -98,4 +98,3 @@ int _isalpha(int c)
 	else
 		return (0);
 }
-

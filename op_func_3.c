@@ -126,5 +126,5 @@ void qpush(stack_t **stack, unsigned int nline)
 		*stack = new;
 	new->prev = last;
 	new->next = NULL;
-	new->n = arg.arg;
+	new->n = glob.glob;
 }

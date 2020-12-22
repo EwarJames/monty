@@ -1,6 +1,6 @@
 #include "monty.h"
 
-arg_t arg = {0, 0};
+glob_t glob = {0, 0};
 
 /**
  * comment_check - checks if line is a comment
@@ -26,12 +26,12 @@ bool comment_check(line_t line)
 }
 
 /**
- * argument_check - verifies argument is valid
- * @token: the argument to be checked
+ * globument_check - verifies argument is valid
+ * @token: the globument to be checked
  *
- * Return: true if valid argument, else false
+ * Return: true if valid globument, else false
  */
-bool argument_check(char *token)
+bool globument_check(char *token)
 {
 	unsigned int i;
 
@@ -53,16 +53,16 @@ bool argument_check(char *token)
 
 /**
  * push_check - check if push opcode is being used and sets global
- * argument variable if true
+ * globument variable if true
  * @line: struct containing line contents and line number
  * @opcode: the opcode to compare
  * @meta: struct containing all allocated memory
  *
  * Return: Nothing.
  */
-void push_check(line_t line, meta_t *meta, char *opcode)
+void push_check(line_t line, node_t *meta, char *opcode)
 {
-	if ((strcmp(opcode, "push") == 0) && !argument_check(line.content[1]))
+	if ((strcmp(opcode, "push") == 0) && !globument_check(line.content[1]))
 	{
 		free(line.content);
 		fprintf(stderr, "L%d: usage: push integer\n", line.number);
@@ -73,5 +73,5 @@ void push_check(line_t line, meta_t *meta, char *opcode)
 		exit(EXIT_FAILURE);
 	}
 	else if (strcmp(opcode, "push") == 0)
-		arg.arg = atoi(line.content[1]);
+		glob.glob = atoi(line.content[1]);
 }
