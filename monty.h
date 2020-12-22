@@ -9,21 +9,20 @@
 #include <ctype.h>
 
 /**
- * struct stack_s - doubly linked list representation of a stack (or queue)
- * @n: integer
- * @prev: points to the previous element of the stack (or queue)
- * @next: points to the next element of the stack (or queue)
+ * struct glob_s - globally defined variables.
+ * @glob: global variable integer. 
+ * @flag: flag integer.
  *
- * Description: doubly linked list node structure
- * for stack, queues, LIFO, FIFO Holberton project
+ * Description: structure that defines all global variables
+ * defined in the functions.
  */
-typedef struct arg_s
+typedef struct glob_s
 {
-	int arg;
+	int glob;
 	int flag;
-} arg_t;
+} glob_t;
 
-extern arg_t arg;
+extern glob_t glob;
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -62,34 +61,34 @@ typedef struct instruction_s
  *
  * Description: contents of a line and corresponding number
  */
-typedef struct line
+typedef struct line_s
 {
 	unsigned int number;
 	char **content;
 } line_t;
 
 /**
- * struct stack_s - doubly linked list representation of a stack (or queue)
- * @n: integer
- * @prev: points to the previous element of the stack (or queue)
- * @next: points to the next element of the stack (or queue)
+ * struct node_s - structure representation of a stack (or queue)
+ * @buf: Pointer to the character 
+ * @stack: Points to the element of the stack (or queue)
+ * @file: points to file.
  *
- * Description: doubly linked list node structure
- * for stack, queues, LIFO, FIFO Holberton project
+ * Description: Represenation of the implementation of the
+ *stack and queues.
  */
-typedef struct meta_s
+typedef struct node_s
 {
 	char *buf;
 	stack_t *stack;
 	FILE *file;
-} meta_t;
+} node_t;
 
-void (*get_op_func(line_t line, meta_t *meta))(stack_t **, unsigned int);
+void (*get_op_func(line_t line, node_t *meta))(stack_t **, unsigned int);
 int _isalpha(int c);
 void parsefile(FILE *file);
 void parseline(line_t *line, char *buffer);
 bool comment_check(line_t line);
-void push_check(line_t line, meta_t *meta, char *opcode);
+void push_check(line_t line, node_t *meta, char *opcode);
 void push(stack_t **stack, unsigned int nline);
 void pall(stack_t **stack, unsigned int nline);
 void pint(stack_t **stack, unsigned int nline);
